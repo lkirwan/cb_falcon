@@ -1,4 +1,4 @@
-package com.example.springboot;
+package com.custombananas.controller;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
