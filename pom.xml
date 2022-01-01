@@ -142,6 +142,43 @@
                 </plugins>
             </build>
         </profile>
+
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>dev</activatedProperties>
+            </properties>
+        </profile>
+
+        <profile>
+            <!-- mvn package -P integration-tests -->
+            <id>integration-tests</id>
+        </profile>
+
+        <profile>
+            <!-- mvn spring-boot:run -P prod-->
+
+            <id>prod</id>
+            <activation>
+                <property>
+                    <!-- mvn package -Dprod -->
+                    <name>prod</name>
+                </property>
+            </activation>
+            <properties>
+                <activatedProperties>prod</activatedProperties>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>no-tests</id>
+            <properties>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+        </profile>
     </profiles>
 
 </project>
