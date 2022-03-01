@@ -13,12 +13,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.annotation.PostConstruct;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -26,7 +32,7 @@ import java.util.Optional;
 @RequestMapping("image")
 public class ImageController {
 
-    private Logger logger = LoggerFactory.getLogger(ImageController.class);
+    private final Logger logger = LoggerFactory.getLogger(ImageController.class);
 
     @Value("${spring.data.mongodb.database}")
     private String databaseName;
@@ -55,7 +61,7 @@ public class ImageController {
         throw new ResponseStatusException(HttpStatus.NOT_FOUND, String.format("Image not found for ID: %s", id));
     }
 
-    @PostMapping("upload")
+    @PostMapping(value = "upload", consumes = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     @ResponseStatus(HttpStatus.CREATED)
     public String convertImage(@RequestParam("targetExtension") String targetExtension, @RequestParam("image") MultipartFile file) throws IOException {
 

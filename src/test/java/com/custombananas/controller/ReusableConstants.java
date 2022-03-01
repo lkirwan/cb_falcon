@@ -1,6 +1,7 @@
 package com.custombananas.controller;
 
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 
@@ -21,13 +22,19 @@ public abstract class ReusableConstants {
 
     protected static final String TEST_FILE_NAME_PNG = "download-icon.png";
     protected static final String TEST_FILE_NAME_JPEG = "download-icon.jpeg";
+    protected static final String TEST_FILE_NAME_PDF = "testFile.pdf";
     protected static final String EXTENSION_JPEG = "jpeg";
     protected static final String EXTENSION_PNG = "png";
+    protected static final String EXTENSION_GIF = "gif";
 
 
     protected byte[] getFileBytes() throws IOException {
         ClassPathResource file = new ClassPathResource(TEST_FILE_NAME_PNG);
         return Files.readAllBytes(Paths.get(file.getURI()));
+    }
+
+    protected void assertJsonObjectErrorResponse(String response, HttpStatus httpStatus) {
+        assertThat(JsonParser.parseString(response).getAsJsonObject().get("error").getAsString()).isEqualTo(httpStatus.getReasonPhrase());
     }
 
     protected void assertJsonObjectResponse(JsonObject returnedBody, String idImageInvalid) {
